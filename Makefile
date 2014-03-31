@@ -2,7 +2,6 @@
 
 TAP = ./node_modules/tape/bin/tape
 MIN = ./bin/tap-min
-ALL = $(wildcard test/*.js)
 
 pass:
 	@$(TAP) test/pass.js | $(MIN)
