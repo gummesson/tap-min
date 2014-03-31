@@ -1,0 +1,66 @@
+#!/usr/bin/env node
+
+/* Modules */
+
+var parser    = require('tap-parser');
+var through   = require('through2');
+var duplexer  = require('duplexer');
+var hirestime = require('hirestime');
+var prettyms  = require('pretty-ms');
+var chalk     = require('chalk');
+
+var tap = parser();
+var out = through();
+var dup = duplexer(tap, out);
+
+/* Helpers */
+
+function output(str) {
+  out.push('  ' + str);
+  out.push('\n');
+}
+
+function format(total, time) {
+  var word = (total > 1) ? 'tests' : 'test';
+  return total + ' ' + word + ' complete (' + time + ')';
+}
+
+/* Parser */
+
+var timer   = hirestime();
+var errors  = [];
+var current = null;
+
+tap.on('comment', function(res) {
+  current = '\n' + '  ' + res;
+});
+
+tap.on('assert', function(res) {
+  var assert = current + ' ' + res.name;
+  if (!res.ok) { errors.push(chalk.white(assert)); }
+});
+
+tap.on('extra', function(res) {
+  if (res !== '') { errors.push(chalk.gray(res)); }
+});
+
+tap.on('results', function(res) {
+  var count = res.asserts.length;
+  var time  = prettyms(timer());
+  out.push('\n');
+  if (errors.length) {
+    output(chalk.red(format(count, time)));
+    errors.forEach(function(error) {
+      output(error);
+    });
+  } else {
+    output(chalk.green(format(count, time)));
+  }
+  out.push('\n');
+});
+
+/* Output */
+
+process.stdin.pipe(dup).pipe(process.stdout);
+
+// vim:filetype=javascript

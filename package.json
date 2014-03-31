@@ -1,0 +1,39 @@
+{
+  "name": "tap-min",
+  "version": "0.1.0",
+  "description": "Minimal TAP output formatter.",
+  "bin": {
+    "tap-min": "bin/tap-min"
+  },
+  "scripts": {
+    "test": "make test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gummesson/tap-min.git"
+  },
+  "keywords": [
+    "test",
+    "tap",
+    "tape",
+    "mocha",
+    "reporter"
+  ],
+  "author": "Ellen Gummesson",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gummesson/tap-min/issues"
+  },
+  "homepage": "https://github.com/gummesson/tap-min",
+  "devDependencies": {
+    "tape": "^2.12.1"
+  },
+  "dependencies": {
+    "tap-parser": "^0.4.3",
+    "through2": "^0.4.1",
+    "duplexer": "^0.1.1",
+    "hirestime": "^0.2.4",
+    "pretty-ms": "^0.1.0",
+    "chalk": "^0.4.0"
+  }
+}
