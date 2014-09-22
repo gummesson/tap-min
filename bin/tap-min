@@ -118,5 +118,8 @@ tap.on('diag', function (diag) {
 /* Output */
 
 process.stdin.pipe(dup).pipe(process.stdout);
+process.on('exit', function () {
+  process.exit(errors.length);
+});
 
 // vim:filetype=javascript
