@@ -34,6 +34,8 @@
     "duplexer": "^0.1.1",
     "hirestime": "^0.2.4",
     "pretty-ms": "^0.1.0",
-    "chalk": "^0.4.0"
+    "chalk": "^0.4.0",
+    "difflet": "^0.2.6",
+    "ansidiff": "^1.0.0"
   }
 }

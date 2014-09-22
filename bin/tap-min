@@ -8,6 +8,12 @@ var duplexer  = require('duplexer');
 var hirestime = require('hirestime');
 var prettyms  = require('pretty-ms');
 var chalk     = require('chalk');
+var objdiff   = require('difflet')({
+  indent: 2,
+  comment: true
+}).compare;
+
+var ansidiff  = require('ansidiff');
 
 var tap = parser();
 var out = through();
@@ -16,13 +22,8 @@ var dup = duplexer(tap, out);
 /* Helpers */
 
 function output(str) {
-  out.push('  ' + str);
+  out.push(' ' + str);
   out.push('\n');
-}
-
-function format(total, time) {
-  var word = (total > 1) ? 'tests' : 'test';
-  return total + ' ' + word + ' complete (' + time + ')';
 }
 
 /* Parser */
@@ -32,31 +33,86 @@ var errors  = [];
 var current = null;
 
 tap.on('comment', function(res) {
-  current = '\n' + '  ' + res;
+  current = res;
 });
 
 tap.on('assert', function(res) {
-  var assert = current + ' ' + res.name;
+  var assert = chalk.red.bold('⨯ ' + current) + '\n  ' + chalk.white('(' + res.name + ')');
   if (!res.ok) { errors.push(chalk.white(assert)); }
 });
 
 tap.on('extra', function(res) {
-  if (res !== '') { errors.push(chalk.gray(res)); }
+  if (res !== '') {
+    try {
+      res = yaml.safeLoad(res);
+    } catch (e) {}
+    errors.push(chalk.gray(res));
+  }
 });
 
 tap.on('results', function(res) {
   var count = res.asserts.length;
   var time  = prettyms(timer());
   out.push('\n');
+
+  errors.forEach(function(error) {
+    output(error);
+    output('');
+  });
+
+  output(chalk.green(Math.max(0,count-errors.length) + ' passing') + chalk.gray(' (' + time + ')'));
   if (errors.length) {
-    output(chalk.red(format(count, time)));
-    errors.forEach(function(error) {
-      output(error);
-    });
-  } else {
-    output(chalk.green(format(count, time)));
+    output(chalk.red(errors.length + ' failing'));
   }
+
   out.push('\n');
+});
+
+tap.on('diag', function (diag) {
+  var expected, actual,
+      gotExpected = true,
+      gotActual = true,
+      str = '';
+
+  if (diag.hasOwnProperty('expected')) {
+    expected = diag.expected;
+  } else if (diag.hasOwnProperty('wanted')) {
+    expected = diag.wanted;
+  } else {
+    gotExpected = false;
+  }
+
+  if (diag.hasOwnProperty('actual')) {
+    actual = diag.actual;
+  } else if (diag.hasOwnProperty('found')) {
+    actual = diag.found;
+  } else {
+    gotActual = false;
+  }
+
+  if (gotActual && gotExpected) {    
+    if (typeof expected !== typeof actual ||
+        typeof expected === "object" && (!actual || !expected)) {
+      str = 'Expected ' + typeof expected + ' but got ' + typeof actual;
+    } else if (typeof expected === "string") {
+      if (str.indexOf('\n') >= 0) {
+        str = ansidiff.lines(expected, actual);
+      } else {
+        str = ansidiff.chars(expected, actual);
+      }
+    } else if (typeof expected === "object") {
+      str = objdiff(expected, actual);
+    } else {
+      str = chalk.white('Expected ') + chalk.bold(''+expected) + chalk.white(' but got ') + chalk.bold(''+actual);
+    }
+  }
+
+  if (str) {
+    str = '\n' + str;
+    str = str.replace(/\n/g, '\n  ');
+    errors[errors.length-1] += '\n' + str;
+  }
+
 });
 
 /* Output */
