@@ -2,7 +2,7 @@
 
 /* Modules */
 
-var parser    = require('tap-parser');
+var parser    = require('tap-parser-yaml');
 var through   = require('through2');
 var duplexer  = require('duplexer');
 var hirestime = require('hirestime');

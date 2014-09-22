@@ -26,16 +26,16 @@
   },
   "homepage": "https://github.com/gummesson/tap-min",
   "devDependencies": {
-    "tape": "^2.12.1"
+    "tape": "^3.0.0"
   },
   "dependencies": {
-    "tap-parser": "^0.4.3",
-    "through2": "^0.4.1",
+    "ansidiff": "^1.0.0",
+    "chalk": "^0.5.1",
+    "difflet": "^0.2.6",
     "duplexer": "^0.1.1",
     "hirestime": "^0.2.4",
-    "pretty-ms": "^0.1.0",
-    "chalk": "^0.4.0",
-    "difflet": "^0.2.6",
-    "ansidiff": "^1.0.0"
+    "pretty-ms": "^1.0.0",
+    "tap-parser-yaml": "^0.7.0",
+    "through2": "^0.6.2"
   }
 }
