@@ -20,6 +20,9 @@
     "reporter"
   ],
   "author": "Ellen Gummesson",
+  "contributors": [
+    "Louis Acresti <louis.acresti@gmail.com> (http://namuol.github.io/)",
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/gummesson/tap-min/issues"

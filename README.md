@@ -18,9 +18,7 @@ node test.js | ./node_modules/tap-min/bin/tap-min
 
 ## Output
 
-![tap-min](http://i.imgur.com/x7G4thJ.png)
-
-![tap-min](http://i.imgur.com/dgII7bF.png)
+![tap-min](http://i.imgur.com/ozkUQT5.png)
 
 ## License
 
