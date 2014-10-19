@@ -1,30 +1,31 @@
-# tap-min
+# tap-difflet
 
-Minimal TAP output formatter.
+TAP output formatter using difflet for inequality errors.
 
 ## Installation
 
 ~~~ text
-npm install -g tap-min
-npm install tap-min --save-dev
+npm install -g tap-difflet
+npm install tap-difflet --save-dev
 ~~~
 
 ## Usage
 
 ~~~ text
-tape test/*.js | tap-min
-node test.js | ./node_modules/tap-min/bin/tap-min
+tape test/*.js | tap-difflet
+node test.js | ./node_modules/tap-difflet/bin/tap-difflet
 ~~~
 
 ## Output
 
-![tap-min](http://i.imgur.com/ozkUQT5.png)
+![tap-difflet](http://i.imgur.com/ozkUQT5.png)
 
 ## License
 
 The MIT License (MIT)
 
 Copyright (c) 2014 Ellen Gummesson
+Copyright (c) 2014 Louis Acresti
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

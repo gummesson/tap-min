@@ -1,22 +1,24 @@
 {
-  "name": "tap-min",
+  "name": "tap-difflet",
   "version": "0.1.0",
-  "description": "Minimal TAP output formatter.",
+  "description": "TAP output formatter using difflet for inequality errors.",
   "bin": {
-    "tap-min": "bin/tap-min"
+    "tap-difflet": "bin/tap-difflet"
   },
   "scripts": {
     "test": "make test"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/gummesson/tap-min.git"
+    "url": "https://github.com/namuol/tap-difflet.git"
   },
   "keywords": [
     "test",
     "tap",
     "tape",
     "mocha",
+    "difflet",
+    "diff",
     "reporter"
   ],
   "author": "Ellen Gummesson",
@@ -25,9 +27,9 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/gummesson/tap-min/issues"
+    "url": "https://github.com/namuol/tap-difflet/issues"
   },
-  "homepage": "https://github.com/gummesson/tap-min",
+  "homepage": "https://github.com/namuol/tap-difflet",
   "devDependencies": {
     "tape": "^3.0.0"
   },
