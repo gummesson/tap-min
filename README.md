@@ -25,6 +25,7 @@ node test.js | ./node_modules/tap-difflet/bin/tap-difflet
 The MIT License (MIT)
 
 Copyright (c) 2014 Ellen Gummesson
+
 Copyright (c) 2014 Louis Acresti
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
