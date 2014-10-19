@@ -13,7 +13,6 @@ npm install tap-difflet --save-dev
 
 ~~~ text
 tape test/*.js | tap-difflet
-node test.js | ./node_modules/tap-difflet/bin/tap-difflet
 ~~~
 
 ## Output
