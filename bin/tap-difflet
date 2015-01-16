@@ -22,8 +22,7 @@ var dup = duplexer(tap, out);
 /* Helpers */
 
 function output(str) {
-  out.push(' ' + str);
-  out.push('\n');
+  out.push(str);
 }
 
 /* Parser */
@@ -31,14 +30,30 @@ function output(str) {
 var timer   = hirestime();
 var errors  = [];
 var current = null;
+var last = current;
 
 tap.on('comment', function(res) {
   current = res;
+  output('\n' + chalk.white.bold(current));
 });
 
 tap.on('assert', function(res) {
-  var assert = chalk.red.bold('⨯ ' + current) + '\n  ' + chalk.white('(' + res.name + ')');
-  if (!res.ok) { errors.push(chalk.white(assert)); }
+  if (current !== last) {
+    output('\n');
+  }
+
+  if (res.ok) {
+    output(chalk.green.bold('✓'));
+  } else {
+    assert = chalk.red.bold('⨯ ' + res.name);
+    errors.push(chalk.white(assert));
+    output(errors[errors.length-1]);
+  }
+
+  if (current !== last) {
+    current = last;
+    output('\n');
+  }
 });
 
 tap.on('extra', function(res) {
@@ -47,6 +62,8 @@ tap.on('extra', function(res) {
       res = yaml.safeLoad(res);
     } catch (e) {}
     errors.push(chalk.gray(res));
+    output(errors[errors.length-1]);
+    output('\n');
   }
 });
 
@@ -55,14 +72,14 @@ tap.on('results', function(res) {
   var time  = prettyms(timer());
   out.push('\n');
 
-  errors.forEach(function(error) {
-    output(error);
-    output('');
-  });
+  // errors.forEach(function(error) {
+  //   output(error);
+  //   output('\n');
+  // });
 
   output(chalk.green(Math.max(0,count-errors.length) + ' passing') + chalk.gray(' (' + time + ')'));
   if (errors.length) {
-    output(chalk.red(errors.length + ' failing'));
+    output(chalk.red('\n' + errors.length + ' failing'));
   }
 
   out.push('\n');
@@ -110,7 +127,9 @@ tap.on('diag', function (diag) {
   if (str) {
     str = '\n' + str;
     str = str.replace(/\n/g, '\n  ');
-    errors[errors.length-1] += '\n' + str;
+    errors[errors.length-1] += str;
+    output(str);
+    output('\n');
   }
 
 });
