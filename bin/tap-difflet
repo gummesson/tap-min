@@ -39,20 +39,16 @@ tap.on('comment', function(res) {
 
 tap.on('assert', function(res) {
   if (current !== last) {
+    current = last;
     output('\n');
   }
 
   if (res.ok) {
     output(chalk.green.bold('✓'));
   } else {
-    assert = chalk.red.bold('⨯ ' + res.name);
+    assert = chalk.red.bold('\n⨯ ' + res.name + '\n');
     errors.push(chalk.white(assert));
     output(errors[errors.length-1]);
-  }
-
-  if (current !== last) {
-    current = last;
-    output('\n');
   }
 });
 
