@@ -31,11 +31,23 @@ var timer   = hirestime();
 var errors  = [];
 
 tap.on('comment', function(comment) {
-    if (/^tests\s+[0-9]+$/gi.test(comment)) comment = chalk.white.bold(comment);
-    else if (/^pass\s+[0-9]+$/gi.test(comment)) comment = chalk.green.bold(comment);
-    else if (/^fail\s+[0-9]+$/gi.test(comment)) comment = chalk.red.bold(comment);
-    else if (/^ok$/gi.test(comment)) return;
-    else comment = chalk.white.bold(comment + '\n');
+    if (/^tests\s+[0-9]+$/gi.test(comment)) {
+        output('\n');
+        comment = chalk.white.bold(comment);
+    }
+    else if (/^pass\s+[0-9]+$/gi.test(comment)) {
+        comment = chalk.green.bold(comment);
+    }
+    else if (/^fail\s+[0-9]+$/gi.test(comment)) {
+        comment = chalk.red.bold(comment);
+    }
+    else if (/^ok$/gi.test(comment)) {
+        return;
+    }
+    else {
+        output('\n');
+        comment = chalk.white.bold(comment);
+    }
 
     output('  ' + comment + '\n');
 });
@@ -64,14 +76,14 @@ tap.on('extra', function(res) {
 tap.on('results', function(res) {
   var count = res.asserts.length;
   var time  = prettyms(timer());
-  out.push('\n');
+  output('\n');
 
   output(chalk.green.bold(Math.max(0,count-errors.length) + ' passing') + chalk.gray(' (' + time + ')'));
   if (errors.length) {
     output(chalk.red.bold('\n' + errors.length + ' failing'));
   }
 
-  out.push('\n\n');
+  output('\n\n');
 });
 
 tap.on('diag', function (diag) {
@@ -118,7 +130,7 @@ tap.on('diag', function (diag) {
     str = str.replace(/\n/g, '\n      ');
     errors[errors.length-1] += str;
     output(str);
-    output('\n\n');
+    output('\n');
   }
 
 });
