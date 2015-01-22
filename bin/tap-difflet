@@ -87,9 +87,10 @@ tap.on('results', function(res) {
 });
 
 tap.on('diag', function (diag) {
-  var expected, actual,
+  var expected, actual, at,
       gotExpected = true,
       gotActual = true,
+      gotAt = true,
       str = '';
 
   if (diag.hasOwnProperty('expected')) {
@@ -108,6 +109,13 @@ tap.on('diag', function (diag) {
     gotActual = false;
   }
 
+  if (diag.hasOwnProperty('at')) {
+    at = diag.at;
+  }
+  else {
+    gotAt = false;
+  }
+
   if (gotActual && gotExpected) {
     if (typeof expected !== typeof actual ||
         typeof expected === "object" && (!actual || !expected)) {
@@ -123,6 +131,10 @@ tap.on('diag', function (diag) {
     } else {
       str = chalk.white('Expected ') + chalk.bold(''+expected) + chalk.white(' but got ') + chalk.bold(''+actual);
     }
+  }
+
+  if (gotAt) {
+    str = str + '\n\n' + chalk.grey('At: ' + at);
   }
 
   if (str) {
