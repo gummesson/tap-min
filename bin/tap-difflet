@@ -30,8 +30,14 @@ function output(str) {
 var timer   = hirestime();
 var errors  = [];
 
-tap.on('comment', function(res) {
-  output(chalk.white.bold(res) + '\n');
+tap.on('comment', function(comment) {
+    if (/^tests\s+[1-9]/gi.test(comment)) comment = chalk.white.bold(comment);
+    else if (/^pass\s+[1-9]/gi.test(comment)) comment = chalk.green.bold(comment);
+    else if (/^fail\s+[1-9]/gi.test(comment)) comment = chalk.red.bold(comment);
+    else if (/^ok$/gi.test(comment)) return;
+    else output('\n');
+
+    output('  ' + comment + '\n');
 });
 
 tap.on('assert', function(res) {
