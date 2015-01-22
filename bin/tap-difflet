@@ -31,11 +31,11 @@ var timer   = hirestime();
 var errors  = [];
 
 tap.on('comment', function(comment) {
-    if (/^tests\s+[1-9]/gi.test(comment)) comment = chalk.white.bold(comment);
-    else if (/^pass\s+[1-9]/gi.test(comment)) comment = chalk.green.bold(comment);
-    else if (/^fail\s+[1-9]/gi.test(comment)) comment = chalk.red.bold(comment);
+    if (/^tests\s+[0-9]+$/gi.test(comment)) comment = chalk.white.bold(comment);
+    else if (/^pass\s+[0-9]+$/gi.test(comment)) comment = chalk.green.bold(comment);
+    else if (/^fail\s+[0-9]+$/gi.test(comment)) comment = chalk.red.bold(comment);
     else if (/^ok$/gi.test(comment)) return;
-    else output('\n');
+    else comment = chalk.white.bold(comment + '\n');
 
     output('  ' + comment + '\n');
 });
@@ -66,12 +66,12 @@ tap.on('results', function(res) {
   var time  = prettyms(timer());
   out.push('\n');
 
-  output(chalk.green(Math.max(0,count-errors.length) + ' passing') + chalk.gray(' (' + time + ')'));
+  output(chalk.green.bold(Math.max(0,count-errors.length) + ' passing') + chalk.gray(' (' + time + ')'));
   if (errors.length) {
-    output(chalk.red('\n' + errors.length + ' failing'));
+    output(chalk.red.bold('\n' + errors.length + ' failing'));
   }
 
-  out.push('\n');
+  out.push('\n\n');
 });
 
 tap.on('diag', function (diag) {
@@ -118,7 +118,7 @@ tap.on('diag', function (diag) {
     str = str.replace(/\n/g, '\n      ');
     errors[errors.length-1] += str;
     output(str);
-    output('\n');
+    output('\n\n');
   }
 
 });
