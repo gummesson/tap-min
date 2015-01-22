@@ -17,7 +17,7 @@ tape test/*.js | tap-difflet
 
 ## Output
 
-![tap-difflet](http://i.imgur.com/ozkUQT5.png)
+![tap-difflet](http://i.imgur.com/8uFAvXU.png)
 
 ## License
 
