@@ -29,26 +29,36 @@ function output(str) {
 
 var timer   = hirestime();
 var errors  = [];
-var current = null;
-var last = current;
 
-tap.on('comment', function(res) {
-  current = res;
-  output('\n' + chalk.white.bold(current));
+tap.on('comment', function(comment) {
+    if (/^tests\s+[0-9]+$/gi.test(comment)) {
+        output('\n');
+        comment = chalk.white.bold(comment);
+    }
+    else if (/^pass\s+[0-9]+$/gi.test(comment)) {
+        comment = chalk.green.bold(comment);
+    }
+    else if (/^fail\s+[0-9]+$/gi.test(comment)) {
+        comment = chalk.red.bold(comment);
+    }
+    else if (/^ok$/gi.test(comment)) {
+        return;
+    }
+    else {
+        output('\n');
+        comment = chalk.white.bold(comment);
+    }
+
+    output('  ' + comment + '\n');
 });
 
 tap.on('assert', function(res) {
-  if (current !== last) {
-    current = last;
-    output('\n');
-  }
-
   if (res.ok) {
-    output(chalk.green.bold('✓'));
+    output('    ' + chalk.green.bold('✓') + ' ' + chalk.gray(res.name) + '\n');
   } else {
-    assert = chalk.red.bold('\n⨯ ' + res.name + '\n');
+    assert = chalk.red.bold('⨯ ' + res.name + '\n');
     errors.push(chalk.white(assert));
-    output(errors[errors.length-1]);
+    output('    ' + errors[errors.length-1]);
   }
 });
 
@@ -66,25 +76,21 @@ tap.on('extra', function(res) {
 tap.on('results', function(res) {
   var count = res.asserts.length;
   var time  = prettyms(timer());
-  out.push('\n');
+  output('\n');
 
-  // errors.forEach(function(error) {
-  //   output(error);
-  //   output('\n');
-  // });
-
-  output(chalk.green(Math.max(0,count-errors.length) + ' passing') + chalk.gray(' (' + time + ')'));
+  output(chalk.green.bold(Math.max(0,count-errors.length) + ' passing') + chalk.gray(' (' + time + ')'));
   if (errors.length) {
-    output(chalk.red('\n' + errors.length + ' failing'));
+    output(chalk.red.bold('\n' + errors.length + ' failing'));
   }
 
-  out.push('\n');
+  output('\n\n');
 });
 
 tap.on('diag', function (diag) {
-  var expected, actual,
+  var expected, actual, at,
       gotExpected = true,
       gotActual = true,
+      gotAt = true,
       str = '';
 
   if (diag.hasOwnProperty('expected')) {
@@ -103,7 +109,14 @@ tap.on('diag', function (diag) {
     gotActual = false;
   }
 
-  if (gotActual && gotExpected) {    
+  if (diag.hasOwnProperty('at')) {
+    at = diag.at;
+  }
+  else {
+    gotAt = false;
+  }
+
+  if (gotActual && gotExpected) {
     if (typeof expected !== typeof actual ||
         typeof expected === "object" && (!actual || !expected)) {
       str = 'Expected ' + typeof expected + ' but got ' + typeof actual;
@@ -120,9 +133,13 @@ tap.on('diag', function (diag) {
     }
   }
 
+  if (gotAt) {
+    str = str + '\n\n' + chalk.grey('At: ' + at);
+  }
+
   if (str) {
     str = '\n' + str;
-    str = str.replace(/\n/g, '\n  ');
+    str = str.replace(/\n/g, '\n      ');
     errors[errors.length-1] += str;
     output(str);
     output('\n');
