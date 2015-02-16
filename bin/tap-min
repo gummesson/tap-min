@@ -62,5 +62,3 @@ tap.on('results', function(res) {
 /* Output */
 
 process.stdin.pipe(dup).pipe(process.stdout);
-
-// vim:filetype=javascript
