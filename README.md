@@ -13,7 +13,7 @@ npm install tap-min --save-dev
 
 ~~~ text
 tape test/*.js | tap-min
-node test.js | ./node_modules/tap-min/bin/tap-min
+node test.js | tap-min
 ~~~
 
 ## Output
