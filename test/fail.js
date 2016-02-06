@@ -1,15 +1,11 @@
-/* Modules */
-
-var test = require('tape');
-
-/* Tests */
+var test = require('tape')
 
 test('1 === 2', function(assert) {
-  assert.plan(1);
-  assert.equal(1, 2);
-});
+  assert.plan(1)
+  assert.equal(1, 2)
+})
 
 test('2 === 1', function(assert) {
-  assert.plan(1);
-  assert.equal(2, 1);
-});
+  assert.plan(1)
+  assert.equal(2, 1)
+})
