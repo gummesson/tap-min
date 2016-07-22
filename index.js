@@ -34,7 +34,12 @@ module.exports = function() {
   })
 
   tap.on('extra', function(res) {
-    if (res !== '') errors.push(chalk.gray(res))
+    if (res === '') return
+    if (res.indexOf('---') === 0) {
+      errors.push(chalk.gray(res))
+    } else {
+      output(chalk.gray(res))
+    }
   })
 
   tap.on('results', function(res) {
