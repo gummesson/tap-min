@@ -39,6 +39,7 @@ module.exports = function() {
 
   tap.on('results', function(res) {
     var count = res.asserts.length
+    stream.count = count
     var time = prettyms(timer())
     out.push('\n')
 
@@ -47,6 +48,8 @@ module.exports = function() {
       errors.forEach(function(error) {
         output(error)
       })
+    } else if (count === 0) {
+      output(chalk.red(format(count, time)))
     } else {
       output(chalk.green(format(count, time)))
     }
