@@ -8,8 +8,8 @@
   "scripts": {
     "test": "npm run test:ok && npm run test:not-ok && npm run test:empty",
     "test:ok": "cat test/ok.txt | ./bin/tap-min > /dev/null; exit $?",
-    "test:not-ok": "cat test/not-ok.txt | ./bin/tap-min > /dev/null; if [[ $? == 0 ]]; then exit 1; fi; exit 0",
-    "test:empty": "echo '' | ./bin/tap-min > /dev/null; if [[ $? == 0 ]]; then exit 1; fi; exit 0"
+    "test:not-ok": "cat test/not-ok.txt | ./bin/tap-min > /dev/null || exit 0; exit 1",
+    "test:empty": "echo '' | ./bin/tap-min > /dev/null || exit 0; exit 1"
   },
   "repository": {
     "type": "git",
