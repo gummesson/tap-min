@@ -2,6 +2,8 @@
 
 Minimal TAP output formatter.
 
+[![build status](https://img.shields.io/travis/derhuerst/tap-min.svg)](https://travis-ci.org/derhuerst/tap-min)
+
 ## Installation
 
 ~~~ text
