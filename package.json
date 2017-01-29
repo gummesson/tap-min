@@ -2,19 +2,15 @@
   "name": "tap-min",
   "version": "1.1.0",
   "description": "Minimal TAP output formatter.",
-  "bin": {
-    "tap-min": "bin/tap-min"
-  },
+  "bin": "bin/tap-min",
+  "files": ["index.js", "bin/tap-min"],
   "scripts": {
     "test": "npm run test:ok && npm run test:not-ok && npm run test:empty",
     "test:ok": "cat test/ok.txt | ./bin/tap-min > /dev/null; exit $?",
     "test:not-ok": "cat test/not-ok.txt | ./bin/tap-min > /dev/null || exit 0; exit 1",
     "test:empty": "echo '' | ./bin/tap-min > /dev/null || exit 0; exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/gummesson/tap-min.git"
-  },
+  "repository": "derhuerst/tap-min",
   "keywords": [
     "test",
     "tap",
@@ -22,12 +18,10 @@
     "mocha",
     "reporter"
   ],
-  "author": "Ellen Gummesson",
+  "author": "Jannis R <mail@jannisr.de>",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/gummesson/tap-min/issues"
-  },
-  "homepage": "https://github.com/gummesson/tap-min",
+  "bugs": "https://github.com/derhuerst/tap-min/issues",
+  "homepage": "https://github.com/derhuerst/tap-min",
   "dependencies": {
     "readable-stream": "^2.2.2",
     "duplexer3": "^0.1.4",

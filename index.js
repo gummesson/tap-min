@@ -8,7 +8,7 @@ const ms = require('pretty-ms')
 const chalk = require('chalk')
 const util = require('util')
 
-module.exports = () => {
+const reporter = () => {
   const onResults = (data) => {
     const time = timer()
     const msg = `${data.count} ${data.count > 1 ? 'tests' : 'test'} complete (${ms(time)})`
@@ -45,3 +45,5 @@ module.exports = () => {
 
   return result
 }
+
+module.exports = reporter

@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-process.on('uncaughtException', console.error)
 
 const min = require('..')
 const stream = min()
