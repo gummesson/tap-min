@@ -2,12 +2,18 @@
 
 **Minimal [TAP](https://en.wikipedia.org/wiki/Test_Anything_Protocol) output formatter.**
 
+[![asciicast](https://asciinema.org/a/101242.png)](https://asciinema.org/a/101242)
+
 [![build status](https://img.shields.io/travis/derhuerst/tap-min.svg)](https://travis-ci.org/derhuerst/tap-min)
+[![dependency status](https://img.shields.io/david/derhuerst/tap-min.svg)](https://david-dm.org/derhuerst/tap-min)
+[![dev dependency status](https://img.shields.io/david/dev/derhuerst/tap-min.svg)](https://david-dm.org/derhuerst/tap-min#info=devDependencies)
+![ISC-licensed](https://img.shields.io/github/license/derhuerst/tap-min.svg)
+[![chat on gitter](https://badges.gitter.im/derhuerst.svg)](https://gitter.im/derhuerst)
 
 ## Installation
 
 ```shell
-npm install --save-dev tap-min
+npm install --save-dev derhuerst/tap-min
 ```
 
 ## Usage
@@ -17,6 +23,7 @@ tape test/*.js | tap-min
 node test.js | tap-min
 ```
 
-![tap-min](http://i.imgur.com/x7G4thJ.png)
 
-![tap-min](http://i.imgur.com/dgII7bF.png)
+## Contributing
+
+If you **have a question**, **found a bug** or want to **propose a feature**, have a look at [the issues page](https://github.com/derhuerst/location/issues).

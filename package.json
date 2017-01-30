@@ -19,7 +19,7 @@
     "reporter"
   ],
   "author": "Jannis R <mail@jannisr.de>",
-  "license": "MIT",
+  "license": "ISC",
   "bugs": "https://github.com/derhuerst/tap-min/issues",
   "homepage": "https://github.com/derhuerst/tap-min",
   "dependencies": {
