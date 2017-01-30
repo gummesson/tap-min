@@ -1,14 +1,14 @@
 {
   "name": "tap-min",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Minimal TAP output formatter.",
   "bin": "bin/tap-min",
   "files": ["index.js", "bin/tap-min"],
   "scripts": {
     "test": "npm run test:ok && npm run test:not-ok && npm run test:empty",
-    "test:ok": "cat test/ok.txt | ./bin/tap-min > /dev/null; exit $?",
-    "test:not-ok": "cat test/not-ok.txt | ./bin/tap-min > /dev/null || exit 0; exit 1",
-    "test:empty": "echo '' | ./bin/tap-min > /dev/null || exit 0; exit 1"
+    "test:ok": "cat test/ok.txt | bin/tap-min > /dev/null",
+    "test:not-ok": "cat test/not-ok.txt | bin/tap-min >/dev/null || exit 0; exit 1",
+    "test:empty": "echo test/empty.txt | bin/tap-min >/dev/null || exit 0; exit 1"
   },
   "repository": "derhuerst/tap-min",
   "keywords": [
