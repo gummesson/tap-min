@@ -4,6 +4,7 @@
 
 [![asciicast](https://asciinema.org/a/101242.png)](https://asciinema.org/a/101242)
 
+[![npm version](https://img.shields.io/npm/v/tap-min.svg)](https://www.npmjs.com/package/tap-min)
 [![build status](https://img.shields.io/travis/derhuerst/tap-min.svg)](https://travis-ci.org/derhuerst/tap-min)
 [![dependency status](https://img.shields.io/david/derhuerst/tap-min.svg)](https://david-dm.org/derhuerst/tap-min)
 [![dev dependency status](https://img.shields.io/david/dev/derhuerst/tap-min.svg)](https://david-dm.org/derhuerst/tap-min#info=devDependencies)
@@ -13,7 +14,7 @@
 ## Installation
 
 ```shell
-npm install --save-dev derhuerst/tap-min
+npm install --save-dev tap-min
 ```
 
 ## Usage
