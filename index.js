@@ -1,59 +1,49 @@
-var parser = require('tap-parser')
-var through = require('through2')
-var duplexer = require('duplexer')
-var hirestime = require('hirestime')
-var prettyms = require('pretty-ms')
-var chalk = require('chalk')
+'use strict'
 
-module.exports = function() {
-  var tap = parser()
-  var out = through()
-  var stream = duplexer(tap, out)
+const PassThrough = require('readable-stream/passthrough')
+const duplexer = require('duplexer3')
+const hirestime = require('hirestime')
+const parser = require('tap-parser')
+const ms = require('pretty-ms')
+const chalk = require('chalk')
+const util = require('util')
 
-  function output(str) {
-    out.push('  ' + str)
-    out.push('\n')
-  }
+const reporter = () => {
+  const onResults = (data) => {
+    const time = timer()
+    const msg = `${data.count} ${data.count > 1 ? 'tests' : 'test'} complete (${ms(time)})`
 
-  function format(total, time) {
-    var word = (total > 1) ? 'tests' : 'test'
-    return total + ' ' + word + ' complete (' + time + ')'
-  }
+    result.count = data.count
+    result.errors = data.failures
 
-  var timer = hirestime()
-  var errors = []
-  var current = null
-
-  tap.on('comment', function(res) {
-    current = '\n' + '  ' + res
-  })
-
-  tap.on('assert', function(res) {
-    var assert = current + ' ' + res.name
-    if (!res.ok) errors.push(chalk.white(assert))
-  })
-
-  tap.on('extra', function(res) {
-    if (res !== '') errors.push(chalk.gray(res))
-  })
-
-  tap.on('results', function(res) {
-    var count = res.asserts.length
-    var time = prettyms(timer())
-    out.push('\n')
-
-    if (errors.length) {
-      output(chalk.red(format(count, time)))
-      errors.forEach(function(error) {
-        output(error)
-      })
+    if (data.count === 0 || data.fail > 0) {
+      output.end('\n' + chalk.red(msg) + '\n')
     } else {
-      output(chalk.green(format(count, time)))
+      output.end('\n' + chalk.green(msg) + '\n')
     }
+  }
 
-    out.push('\n')
+  const input = parser(onResults)
+  const output = new PassThrough()
+  const result = duplexer(input, output)
+
+  input.on('assert', (assert) => {
+    if (assert.ok) return
+
+    output.write('\n' + chalk.white(assert.name) + '\n')
+    if (assert.diag) {
+      const d = assert.diag
+      output.write(chalk.gray(
+        `\toperator: ${d.operator}\n` +
+        `\texpected: ${util.inspect(d.expected)}\n` +
+        `\tactual:   ${util.inspect(d.actual)}\n`
+      ))
+    }
   })
 
-  stream.errors = errors
-  return stream
+  const timer = hirestime() // todo: init when first test running
+
+  return result
 }
+
+module.exports = reporter
