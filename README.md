@@ -1,5 +1,9 @@
 # tap-min
 
+**Deprecated.** Please use the [`derhuerst/tap-min` fork](https://github.com/derhuerst/tap-min).
+
+---
+
 Minimal TAP output formatter.
 
 ## Installation
